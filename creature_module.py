@@ -1,5 +1,6 @@
 import pygame
 from enum import Enum
+import engine
 
 
 # синтаксис класса
