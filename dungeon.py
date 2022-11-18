@@ -1,16 +1,23 @@
 import pygame
 import random
 import engine
+import copy
 
 
 class Dungeon:
     def __init__(self, mapScale, screenW, screenH, cellAmountW, cellAmountH):
+        self.mapScale = mapScale
         self.maxX = screenW * mapScale
         self.maxY = screenH * mapScale
         self.cellAmountH = cellAmountH
         self.cellAmountW = cellAmountW
+        self.screenCenter = engine.position(int(screenW / 2), int(screenH / 2))
+        self.cameraPos = copy.copy(self.screenCenter)
         self.cellSize = int((screenW / cellAmountW) * mapScale)
         self.field = [False] * cellAmountW
+
+        self.visibility = int(cellAmountW / mapScale) + 1
+
         # initialize field data
         for i in range(0, cellAmountW):
             self.field[i] = [False] * cellAmountH
@@ -22,9 +29,12 @@ class Dungeon:
         maze(0 ,0, cellAmountW, cellAmountH, self.field, visited)
 
     def draw(self, display):
-        for i in range(0, self.cellAmountW):
-            for j in range(0, self.cellAmountH):
-                cell = pygame.Rect(i * self.cellSize, j * self.cellSize, self.cellSize, self.cellSize)
+        curCell = engine.position(int(self.cameraPos.x / self.cellSize), int(self.cameraPos.y / self.cellSize))
+        # print(self.cameraPos.x, self.cameraPos.y)
+        for i in range(curCell.x - self.visibility, curCell.x + self.visibility):
+            for j in range(curCell.y - 3, curCell.y + 3):
+                deltaPos = engine.position(self.screenCenter.x - self.cameraPos.x, self.screenCenter.y - self.cameraPos.y)
+                cell = pygame.Rect(i * self.cellSize + deltaPos.x, j * self.cellSize + deltaPos.y, self.cellSize, self.cellSize)
                 activeColor = engine.darkGrey
                 if self.field[i][j] == True:
                     activeColor = engine.purple

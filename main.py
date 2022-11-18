@@ -123,8 +123,8 @@ squareSpeed = 10
 monsterSpeed = 5
 monsterPos = engine.position(width / 2, height / 2)
 
-square = creature.MainCharacter(x - 15 * cellSize, y, squareSpeed, cellSize, lifes)
-mainMap = dungeon.Dungeon(1.0, width, height, 96, 54)
+square = creature.MainCharacter(int(width / 2), int(height / 2), squareSpeed, cellSize, lifes)
+mainMap = dungeon.Dungeon(20.0, width, height, 96, 54)
 mX = width / 2
 mY = height / 2
 while not game_over:
@@ -133,13 +133,17 @@ while not game_over:
 
     # movement of main character
     if pressedKey[pygame.K_a]:
-        square.move(creature.DIRECTION.LEFT)
+        # square.move(creature.DIRECTION.LEFT)
+        mainMap.cameraPos.x -= squareSpeed
     if pressedKey[pygame.K_d]:
-        square.move(creature.DIRECTION.RIGHT)
+        # square.move(creature.DIRECTION.RIGHT)
+        mainMap.cameraPos.x += squareSpeed
     if pressedKey[pygame.K_w]:
-        square.move(creature.DIRECTION.UP)
+        # square.move(creature.DIRECTION.UP)
+        mainMap.cameraPos.y -= squareSpeed
     if pressedKey[pygame.K_s]:
-        square.move(creature.DIRECTION.DOWN)
+        # square.move(creature.DIRECTION.DOWN)
+        mainMap.cameraPos.y += squareSpeed
 
     if mousePressed:
         mainMap.set_state(int(pos[0] / cellSize), int(pos[1] / cellSize), 1)
