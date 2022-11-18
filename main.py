@@ -55,8 +55,7 @@ def event_handler():
 aimSin = 0;
 aimCos = 0;
 
-
-# draw Ilya EyeMonster that looks to the given point
+# draw Ilya Eye Monster that looks to the given point
 def draw_eyes(centerX, centerY, mX, mY, radius):
     leftX = centerX - 2*radius
     leftY = centerY
@@ -68,7 +67,7 @@ def draw_eyes(centerX, centerY, mX, mY, radius):
         aimSin = 0
     else:
         aimSin = -(centerX - mX) / ((centerX - mX) ** 2 + (centerY - mY) ** 2) ** (1 / 2)
-    if centerY- mY == 0:
+    if centerY - mY == 0:
         aimCos = 1
     else:
         aimCos = -(centerY - mY) / ((centerX - mX) ** 2 + (centerY - mY) ** 2) ** (1 / 2)
@@ -107,6 +106,8 @@ width = 1920
 height = 1080
 cellSize = 40
 
+screenCenter = engine.position(int(width / 2), int(height / 2));
+
 display = pygame.display.set_mode((width, height))
 pygame.display.update()
 pygame.display.set_caption('Game')
@@ -121,9 +122,9 @@ pos = (x, y)
 lifes = 3
 squareSpeed = 10
 monsterSpeed = 5
-monsterPos = engine.position(width / 2, height / 2)
+monsterPos = engine.position(width / 4, height / 4)
 
-square = creature.MainCharacter(int(width / 2), int(height / 2), squareSpeed, cellSize, lifes)
+square = creature.MainCharacter(int(width / 2), int(height / 2), int(width / 2), int(height / 2),squareSpeed, cellSize, lifes)
 mainMap = dungeon.Dungeon(20.0, width, height, 96, 54)
 mX = width / 2
 mY = height / 2
@@ -133,29 +134,30 @@ while not game_over:
 
     # movement of main character
     if pressedKey[pygame.K_a]:
-        # square.move(creature.DIRECTION.LEFT)
+        square.move(creature.DIRECTION.LEFT)
         mainMap.cameraPos.x -= squareSpeed
     if pressedKey[pygame.K_d]:
-        # square.move(creature.DIRECTION.RIGHT)
+        square.move(creature.DIRECTION.RIGHT)
         mainMap.cameraPos.x += squareSpeed
     if pressedKey[pygame.K_w]:
-        # square.move(creature.DIRECTION.UP)
+        square.move(creature.DIRECTION.UP)
         mainMap.cameraPos.y -= squareSpeed
     if pressedKey[pygame.K_s]:
-        # square.move(creature.DIRECTION.DOWN)
+        square.move(creature.DIRECTION.DOWN)
         mainMap.cameraPos.y += squareSpeed
 
     if mousePressed:
-        mainMap.set_state(int(pos[0] / cellSize), int(pos[1] / cellSize), 1)
+        pass
 
     # drawing
     rect = pygame.Rect(mousePos.x - cellSize / 2 - 100, mousePos.y - cellSize / 2 - 100, cellSize, cellSize)
     mainMap.draw(display)
     pygame.draw.rect(display, engine.purple, rect)
 
-    monsterPos.x += int(aimSin * monsterSpeed)
-    monsterPos.y += int(aimCos * monsterSpeed)
-    draw_eyes(monsterPos.x, monsterPos.y, square.x, square.y, 30)
+    deltaPos = engine.position(monsterPos.x - mainMap.cameraPos.x, monsterPos.y - mainMap.cameraPos.y)
+    monsterPos.x += + int(aimSin * monsterSpeed)
+    monsterPos.y += + int(aimCos * monsterSpeed)
+    draw_eyes(monsterPos.x + deltaPos.x, monsterPos.y + deltaPos.y, screenCenter.x, screenCenter.y, 30)
     square.draw(display)
 
     pygame.display.update()

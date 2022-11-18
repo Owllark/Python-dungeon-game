@@ -41,8 +41,6 @@ class Dungeon:
 
                 pygame.draw.rect(display, activeColor, cell)
 
-    def set_state(self, x, y, state):
-        self.cells[x][y] = state
 
     def __del__(self):
         pass

@@ -13,9 +13,9 @@ class DIRECTION(Enum):
 
 class Creature:
 
-    def __init__(self, x, y, speed, size):
-        self.x = x
-        self.y = y
+    def __init__(self, startX, startY, speed, size):
+        self.x = startX
+        self.y = startY
         self.speed = speed
         self.size = size
 
@@ -38,11 +38,12 @@ class Creature:
 
 
 class MainCharacter(Creature):
-    color = (255, 255, 255)
-    def __init__(self, x, y, speed, size, lifes):
-        Creature.__init__(self, x, y, speed, size)
+
+    def __init__(self, startX, startY, drawPosX, drawPosY, speed, size, lifes):
+        Creature.__init__(self, startX, startY,  speed, size)
         self.lifes = lifes
+        self.drawPos = engine.position(drawPosX, drawPosY)
 
     def draw(self, display):
-        rect = pygame.Rect(self.x - self.size / 2, self.y - self.size / 2, self.size, self.size)
-        pygame.draw.rect(display, self.color, rect)
+        rect = pygame.Rect(self.drawPos.x - self.size / 2, self.drawPos.y - self.size / 2, self.size, self.size)
+        pygame.draw.rect(display, engine.white, rect)
