@@ -35,10 +35,19 @@ class Dungeon:
             for j in range(curCell.y - 3, curCell.y + 3):
                 deltaPos = engine.position(self.screenCenter.x - self.cameraPos.x, self.screenCenter.y - self.cameraPos.y)
                 cell = pygame.Rect(i * self.cellSize + deltaPos.x, j * self.cellSize + deltaPos.y, self.cellSize, self.cellSize)
-                activeColor = engine.darkGrey
+                activeColor = engine.darkGray
                 if self.field[i][j] == True:
                     activeColor = engine.purple
+                pygame.draw.rect(display, activeColor, cell)
 
+    def draw_minimap(self, x, y, scale, display):
+        cellSize = int(scale * self.cellSize)
+        for i in range(0, self.cellAmountW):
+            for j in range(0, self.cellAmountH):
+                activeColor = engine.black
+                if self.field[i][j] == True:
+                    activeColor = engine.lightGray
+                cell = pygame.Rect(x + i * cellSize, y + j * cellSize, cellSize, cellSize)
                 pygame.draw.rect(display, activeColor, cell)
 
 

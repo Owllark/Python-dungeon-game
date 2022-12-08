@@ -121,17 +121,17 @@ pos = (x, y)
 
 lifes = 3
 squareSpeed = 10
-monsterSpeed = 5
+monsterSpeed = 0
 monsterPos = engine.position(width / 4, height / 4)
 
 square = creature.MainCharacter(int(width / 2), int(height / 2), int(width / 2), int(height / 2),squareSpeed, cellSize, lifes)
-mainMap = dungeon.Dungeon(20.0, width, height, 96, 54)
+mainMap = dungeon.Dungeon(20.0, width, height, 96 + 1, 54 + 1)
 mX = width / 2
 mY = height / 2
 while not game_over:
     display.fill(engine.white)
     event_handler()
-
+    # comment
     # movement of main character
     if pressedKey[pygame.K_a]:
         square.move(creature.DIRECTION.LEFT)
@@ -152,13 +152,15 @@ while not game_over:
     # drawing
     rect = pygame.Rect(mousePos.x - cellSize / 2 - 100, mousePos.y - cellSize / 2 - 100, cellSize, cellSize)
     mainMap.draw(display)
-    pygame.draw.rect(display, engine.purple, rect)
+    # pygame.draw.rect(display, engine.purple, rect)
 
     deltaPos = engine.position(monsterPos.x - mainMap.cameraPos.x, monsterPos.y - mainMap.cameraPos.y)
     monsterPos.x += + int(aimSin * monsterSpeed)
     monsterPos.y += + int(aimCos * monsterSpeed)
     draw_eyes(monsterPos.x + deltaPos.x, monsterPos.y + deltaPos.y, screenCenter.x, screenCenter.y, 30)
     square.draw(display)
+
+    mainMap.draw_minimap(1600, 10, 0.01, display)
 
     pygame.display.update()
     clock.tick(60)

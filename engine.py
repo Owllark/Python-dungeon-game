@@ -8,4 +8,6 @@ class position:
 white = (255, 255, 255)
 black = (0, 0, 0)
 purple = (150, 30, 180)
-darkGrey = (25, 25, 25)
+darkGray = (25, 25, 25)
+lightGray = (200, 200, 200)
+green = (10, 120, 40)
